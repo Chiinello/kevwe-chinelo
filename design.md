@@ -39,17 +39,23 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by Repository for the Repository class name.
 
 # EXAMPLE
-# Table name: students
+# Table name: book_store
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/book.rb)
+```ruby
+class Book
+
 end
+```
 
 # Repository class
 # (in lib/student_repository.rb)
+```ruby
 class StudentRepository
 end
+```
+
 4. Implement the Model class
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
@@ -58,13 +64,13 @@ Define the attributes of your Model class. You can usually map the table columns
 
 # Model class
 # (in lib/student.rb)
-
+```ruby
 class Student
 
   # Replace the attributes by your own columns.
   attr_accessor :id, :name, :cohort_name
 end
-
+```
 # The keyword attr_accessor is a special Ruby feature
 # which allows us to set and get attributes on an object,
 # here's an example:
@@ -84,7 +90,7 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 # Repository class
 # (in lib/student_repository.rb)
-
+```ruby
 class StudentRepository
 
   # Selecting all records
@@ -96,26 +102,8 @@ class StudentRepository
     # Returns an array of Student objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
-  end
-
-  # Add more methods below for each operation you'd like to implement.
-
-  # def create(student)
-  # end
-
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
 end
+```
 6. Write Test Examples
 Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
 
@@ -125,7 +113,7 @@ These examples will later be encoded as RSpec tests.
 
 # 1
 # Get all students
-
+```ruby
 repo = StudentRepository.new
 
 students = repo.all
@@ -152,6 +140,7 @@ student.name # =>  'David'
 student.cohort_name # =>  'April 2022'
 
 # Add more examples for each method
+```
 Encode this example as a test.
 
 7. Reload the SQL seeds before each test run
@@ -162,7 +151,7 @@ This is so you get a fresh table contents every time you run the test suite.
 # EXAMPLE
 
 # file: spec/student_repository_spec.rb
-
+```ruby
 def reset_students_table
   seed_sql = File.read('spec/seeds_students.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
@@ -176,3 +165,4 @@ describe StudentRepository do
 
   # (your tests will go here).
 end
+```
